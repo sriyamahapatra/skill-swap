@@ -29,39 +29,35 @@
 ## 📦 Installation & Setup
 
 Clone the repo:
-
+```bash
 git clone https://github.com/sriyamahapatra/skill-swap.git
-
 cd skill-swap
-
+```
+---
 Install dependencies:
-
+```bash
 npm install
-
-
+```
+---
 Set up environment variables (.env):
-
+```bash
 MONGO_URI=your_mongodb_connection_string
-
 JWT_SECRET=your_secret_key
-
 PORT=5000
-
-
+```
+--
 Run the development server:
-
+```bash
 npm run dev
-
+```
 
 Frontend (if separate):
-
+```bash
 cd frontend
-
 npm install
-
 npm start
-
-
+```
+---
 🤝 Contributing
 Contributions are welcome!
 
