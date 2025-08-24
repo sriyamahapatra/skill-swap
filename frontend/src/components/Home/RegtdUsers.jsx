@@ -29,7 +29,7 @@ export default function RegtdUsers() {
     return (
         <div className="flex justify-center items-center font-sans font-medium text-black dark:text-white text-md sm:text-xl">
             <span>Registered&nbsp;</span>
-            <div className='text-blue-600 dark:text-blue-500 font-bold border-solid border-blue-600 dark:border-blue-500 rounded-lg border-2 px-1'>{users}</div>
+            <div className='text-purple-600 dark:text-purple-500 font-bold border-solid border-purple-600 dark:border-purple-500 rounded-lg border-2 px-1'>{users}</div>
             <span>&nbsp;users till now...</span>
         </div>
     )

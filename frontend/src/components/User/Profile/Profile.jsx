@@ -11,79 +11,74 @@ import { useLoading } from '../../utils/LoadingProvider'
 
 Axios.defaults.withCredentials = true
 
-
 export default function Profile() {
     const { userData, setUserData } = useUser()
     const navigate = useNavigate()
     const fieldsNotToDisplay = ['notifications', 'matches']
     const { alert, setAlert } = useAlert()
     const { isLoading, setIsLoading} = useLoading()
+    const [isHovered, setIsHovered] = useState(false)
 
     useEffect(() => {
         const handleFetch = async () => {
             setIsLoading(true)
             try {
                 const response = await Axios.get(`${import.meta.env.VITE_BACKEND_URL}user/profile`)
-
                 if (response.status === 200) {
-                    console.log('Profile fetched successfully:', response.data)
                     setUserData({
                         ...userData,
                         ...response.data
                     })
                 } else if (response.status === 300) {
-                    console.log('Token is invalid or expired.')
-                    setAlert({
-                        message: "Invalid token."
-                    })
+                    setAlert({ message: "Invalid token." })
                 } else {
-                    console.log('Fetch not working')
-                    setAlert({
-                        message: "Couldn't fetch profile."
-                    })
+                    setAlert({ message: "Couldn't fetch profile." })
                 }
-                setIsLoading(false)
             } catch (error) {
-                console.error('Fetching profile failed:', error)
                 setAlert({
                     message: "Fetching profile failed",
                     type: "warning"
                 })
                 setUserData({ ...defaultUser })
-                console.log('Redirecting to login page.')
                 navigate('/user/login')
+            } finally {
                 setIsLoading(false)
             }
-            setIsLoading(false)
         }
-
         handleFetch()
     }, [])
-
-
-    useEffect(() => {
-        console.log('Updated userData:', userData);
-    }, [userData])
-
 
     function handleClick() {
         navigate('/user/profile-update')
     }
 
     return (
-        <div className="flex items-center justify-center w-full">
-            
-            <div className='flex flex-col my-5'>
+        <div className="flex items-center justify-center w-full min-h-screen bg-gradient-to-br from-purple-50 to-violet-100 dark:from-gray-800 dark:to-gray-900 p-4 transition-colors duration-300">
+            <div className="flex flex-col w-full max-w-2xl">
+                <PageHeading>
+                    <span className="bg-gradient-to-r from-purple-600 to-violet-500 bg-clip-text text-transparent">
+                        Profile
+                    </span>
+                </PageHeading>
 
-                <PageHeading>Profile</PageHeading>
+                <div className="w-full border border-purple-200 dark:border-violet-900 rounded-xl shadow-lg bg-white dark:bg-gray-800 overflow-hidden transition-all duration-300 hover:shadow-xl">
+                    {/* Profile header with gradient */}
+                    <div className="bg-gradient-to-r from-purple-600 to-violet-500 p-6 text-white">
+                        <div className="flex items-center justify-between">
+                            <h1 className="text-2xl font-bold">
+                                @{userData.username.toLowerCase()}
+                            </h1>
+                            <div className="w-16 h-16 rounded-full bg-white/20 flex items-center justify-center transition-transform duration-300 hover:scale-110">
+                                <span className="text-2xl">
+                                    {userData.username.charAt(0).toUpperCase()}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
 
-                <div className="w-full max-w-lg border-2 border-blue-600 dark:border-blue-500 rounded-lg shadow bg-slate-200 dark:bg-gray-900 mb-5">
-                    <div className="flex flex-col items-center p-10">
-
-                        <h1 className="text-right mb-1 text-xl font-bold text-blue-600 dark:text-blue-500 w-full">{`@ ${userData.username.toLowerCase()}`}</h1>
-
-
-                        <div className="flex flex-col justify-between items-center py-5 w-full">
+                    {/* Profile content */}
+                    <div className="p-6 space-y-6">
+                        <div className="space-y-4">
                             {Object.keys(userData).map((myKey, itr) => {
                                 if (!fieldsNotToDisplay.includes(myKey)) {
                                     if (myKey === 'skills' || myKey === 'interests') {
@@ -95,11 +90,25 @@ export default function Profile() {
                             })}
                         </div>
 
-                        <button onClick={handleClick} className='text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-lg px-7 py-2.5 text-center me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'>✏️ EDIT</button>
-
+                        <button
+                            onClick={handleClick}
+                            className={`w-full py-3 px-6 rounded-lg font-medium text-white transition-all duration-300
+                                ${isHovered ? 
+                                    'bg-gradient-to-r from-violet-600 to-purple-700 shadow-lg transform scale-[1.02]' : 
+                                    'bg-gradient-to-r from-purple-600 to-violet-500 shadow-md'
+                                }`}
+                            onMouseEnter={() => setIsHovered(true)}
+                            onMouseLeave={() => setIsHovered(false)}
+                        >
+                            <div className="flex items-center justify-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                    <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+                                </svg>
+                                Edit Profile
+                            </div>
+                        </button>
                     </div>
                 </div>
-
             </div>
         </div>
     )

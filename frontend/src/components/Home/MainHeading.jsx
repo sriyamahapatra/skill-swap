@@ -7,7 +7,7 @@ export default function MainHeading() {
                 Skill
             </div>
             <div className='flex'>
-                <span className="text-blue-600 dark:text-blue-500">Buddies</span>
+                <span className="text-purple-600 dark:text-purle-500">Buddies</span>
                 <div>.</div>
             </div>
         </div>
