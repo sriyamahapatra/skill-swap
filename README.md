@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./frontend/src/assets/skillswap.png" alt="Skill Buddies Logo" width="150"/>
+  <img src="./frontend/src/assets/SkillSwap.png" alt="Skill Buddies Logo" width="150"/>
 </p>
 
 
